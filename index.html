@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sathurika's Store | Premium Ethnic Wear</title>
+    <title>Sathu Crochets | Handmade with Love</title>
     <meta name="theme-color" content="#1F2121">
     <style>
         /* 
@@ -36,6 +36,8 @@
             /* Typography */
             --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --font-mono: "JetBrains Mono", monospace;
+            /* Stylish Brand Font */
+            --font-brand: "Brush Script MT", "Segoe Script", "Dancing Script", cursive;
         }
 
         /* Reset & Base */
@@ -53,6 +55,13 @@
         h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.02em; color: #fff; }
         a { text-decoration: none; color: inherit; }
         button { cursor: pointer; border: none; font-family: inherit; }
+
+        /* BRAND STYLING */
+        .brand-text {
+            font-family: var(--font-brand);
+            font-weight: 400; /* Cursive fonts usually don't need bold */
+            letter-spacing: 0.05em;
+        }
 
         /* SCROLLBAR */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -105,7 +114,7 @@
         .splash-logo-container { position: relative; width: 120px; height: 120px; margin-bottom: 24px; }
         
         .splash-logo {
-            font-size: 80px; font-weight: 800; font-family: var(--font-sans);
+            font-size: 80px; font-weight: 800; font-family: var(--font-brand);
             background: linear-gradient(135deg, #2D8074, #00E5FF);
             -webkit-background-clip: text; color: transparent;
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -133,7 +142,8 @@
         }
 
         .splash-tagline {
-            color: #fff; font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase;
+            color: #fff; font-size: 2rem;
+            font-family: var(--font-brand);
             opacity: 0; animation: slideUp 0.8s ease 0.6s forwards;
             background: linear-gradient(to right, #fff, #A0A0A0); -webkit-background-clip: text; color: transparent;
         }
@@ -380,7 +390,7 @@
         <div class="particle"></div>
         <div class="splash-logo">S</div>
     </div>
-    <div class="splash-tagline">Sathurika's Store</div>
+    <div class="splash-tagline">Sathu Crochets</div>
     <div class="splash-loader">
         <div class="splash-progress"></div>
     </div>
@@ -489,7 +499,7 @@ const DB = {
         if (!localStorage.getItem('users')) DB.set('users', []);
         if (!localStorage.getItem('orders')) DB.set('orders', []);
         if (!localStorage.getItem('cart')) DB.set('cart', []);
-        if (!localStorage.getItem('settings')) DB.set('settings', { storeName: "Sathurika's Store", upi: "sathurika@upi" });
+        if (!localStorage.getItem('settings')) DB.set('settings', { storeName: "Sathu Crochets", upi: "sathurika@upi" });
     }
 };
 
@@ -506,6 +516,7 @@ const State = {
         DB.set('currentUser', user);
         DB.set('userRole', role);
         UI.toast(`Welcome back, ${user.name || 'Admin'}!`, 'success');
+        Router.history = []; // Clear history on login
         Router.navigate(role === 'admin' ? 'admin-dashboard' : 'home');
     },
     logout: () => {
@@ -514,6 +525,7 @@ const State = {
         DB.set('currentUser', null);
         DB.set('userRole', null);
         DB.set('cart', []); // Clear local cart reference
+        Router.history = []; // Clear history
         Router.navigate('landing');
     }
 };
@@ -630,6 +642,8 @@ const Cart = {
 // --- 6. RENDERERS & VIEWS ---
 
 const Router = {
+    history: [],
+    current: null,
     routes: {
         'landing': () => Views.landing(),
         'login': () => Views.auth('login'),
@@ -643,9 +657,28 @@ const Router = {
         'checkout': () => Views.checkout(),
         'my-orders': () => Views.customerOrders()
     },
-    navigate: (route) => {
+    navigate: (route, addToHistory = true) => {
+        if (addToHistory && Router.current && Router.current !== route) {
+            // Only push if we are logged in and not on auth pages to avoid going back to login
+            if (['landing', 'login', 'signup', 'admin-login'].includes(Router.current) && ['home', 'admin-dashboard'].includes(route)) {
+                Router.history = []; // Reset history on login
+            } else {
+                Router.history.push(Router.current);
+            }
+        }
+        
+        Router.current = route;
         window.scrollTo(0,0);
         if (Router.routes[route]) Router.routes[route]();
+    },
+    back: () => {
+        if (Router.history.length > 0) {
+            const prev = Router.history.pop();
+            Router.navigate(prev, false);
+        } else {
+            // Fallback
+            Router.navigate(State.role === 'admin' ? 'admin-dashboard' : 'home');
+        }
     }
 };
 
@@ -654,12 +687,14 @@ const Render = {
         const isAuth = !!State.user;
         const isAdmin = State.role === 'admin';
         const cartCount = State.cart.reduce((acc, i) => acc + i.qty, 0);
+        const canGoBack = Router.history.length > 0;
         
         return `
             <header class="flex justify-between items-center anim-fade">
                 <div class="flex items-center gap-4">
-                    <h1 class="text-xl font-bold" style="color:var(--primary); cursor:pointer;" onclick="Router.navigate('${isAdmin ? 'admin-dashboard' : 'home'}')">
-                        Sathurika's Store
+                    ${canGoBack ? `<button class="btn btn-secondary" style="padding:8px 12px;" onclick="Router.back()">←</button>` : ''}
+                    <h1 class="text-xl font-bold brand-text" style="color:var(--primary); cursor:pointer; font-size:1.8rem;" onclick="Router.navigate('${isAdmin ? 'admin-dashboard' : 'home'}')">
+                        Sathu Crochets
                     </h1>
                 </div>
                 <div class="flex items-center gap-4">
@@ -749,10 +784,10 @@ const Views = {
     landing: () => {
         UI.app.innerHTML = `
             <div class="landing-hero anim-fade">
-                <h1 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; color: transparent;">
-                    Sathurika's Store
+                <h1 class="brand-text" style="font-size: 4rem; margin-bottom: 1rem; background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; color: transparent;">
+                    Sathu Crochets
                 </h1>
-                <p class="text-muted" style="font-size: 1.2rem; margin-bottom: 3rem;">Premium Ethnic Wear & Futuristic Fashion</p>
+                <p class="text-muted" style="font-size: 1.2rem; margin-bottom: 3rem;">Premium Handmade & Futuristic Fashion</p>
                 
                 <div class="flex gap-4 flex-col md:flex-row">
                     <button class="btn btn-primary" style="min-width: 200px;" onclick="Router.navigate('login')">I am a Customer</button>
@@ -880,7 +915,7 @@ const Views = {
                 <div class="card" style="padding:0; overflow:hidden; border:none; background:transparent;">
                     <div class="about-header">
                         <h1 class="anim-slide-up">Behind The Brand</h1>
-                        <p class="text-muted anim-slide-up" style="animation-delay:0.1s">The story of Sathurika's Store</p>
+                        <p class="text-muted anim-slide-up" style="animation-delay:0.1s">The story of Sathu Crochets</p>
                     </div>
                     
                     <div style="background:var(--surface); border-radius:var(--radius-lg); margin:0 20px 40px; padding:0 24px 40px; position:relative; border:1px solid var(--border);">
@@ -903,7 +938,7 @@ const Views = {
                                 <h3 class="mb-4 text-primary">Our Story</h3>
                                 <p class="text-muted mb-6" style="line-height:1.8;">
                                     It all began with a simple dream: to make premium ethnic wear accessible without compromising on quality. 
-                                    What started as a small curated collection in Bangalore has now blossomed into Sathurika's Store. 
+                                    What started as a small curated collection in Bangalore has now blossomed into Sathu Crochets. 
                                     Every piece in our collection is selected with love, ensuring that tradition meets modern elegance.
                                 </p>
                                 
@@ -1422,13 +1457,13 @@ const Views = {
             <div id="receipt-view" style="padding:40px; font-family:sans-serif; color:#000; max-width:800px; margin:auto;">
                 <div style="display:flex; justify-content:space-between; border-bottom:2px solid #000; padding-bottom:20px; margin-bottom:20px;">
                     <div>
-                        <h1 style="margin:0; color:#2D8074;">INVOICE</h1>
+                        <h1 style="margin:0; color:#2D8074;" class="brand-text">INVOICE</h1>
                         <p>#${order.id}</p>
                         <p>Date: ${Utils.formatDate(order.createdAt)}</p>
                     </div>
                     <div style="text-align:right;">
-                        <h3>Sathurika's Store</h3>
-                        <p>Bangalore, India</p>
+                        <h3 class="brand-text">Sathu Crochets</h3>
+                        <p>Chennai, Tamil Nadu, India</p>
                         <p>support@sathurika.store</p>
                     </div>
                 </div>
@@ -1492,9 +1527,10 @@ const Views = {
     if (user && role) {
         State.user = user;
         State.role = role;
-        Router.navigate(role === 'admin' ? 'admin-dashboard' : 'home');
+        // Don't add init navigation to history
+        Router.navigate(role === 'admin' ? 'admin-dashboard' : 'home', false);
     } else {
-        Router.navigate('landing');
+        Router.navigate('landing', false);
     }
 
     // Sync tabs
