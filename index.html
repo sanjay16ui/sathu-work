@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sathurika's Store | Premium Ethnic Wear</title>
+    <meta name="theme-color" content="#1F2121">
+    <style>
+        /* 
+         * RUTHLESS ARCHITECTURE - CSS SYSTEM 
+         * 0 Dependencies. Pure CSS Variables. Hardware Accelerated Animations.
+         */
+        :root {
+            /* Palette */
+            --primary: #2D8074;
+            --primary-grad: linear-gradient(135deg, #2D8074 0%, #208074 100%);
+            --accent: #00E5FF;
+            --bg: #0f1111;
+            --surface: #1F2121;
+            --surface-light: #2A2D2D;
+            --text: #FCFCF9;
+            --text-muted: #A0A0A0;
+            --success: #22C55E;
+            --error: #FF5459;
+            --warning: #E6816D;
+            --border: rgba(255,255,255,0.08);
+            
+            /* Spacing & Layout */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.1);
+            --shadow-glow: 0 0 20px rgba(45, 128, 116, 0.3);
+            --shadow-hover: 0 12px 24px rgba(0,0,0,0.3);
+            
+            /* Typography */
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+        }
+
+        /* Reset & Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 { font-weight: 700; letter-spacing: -0.02em; color: #fff; }
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; font-family: inherit; }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* UTILITIES & ANIMATIONS */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .font-bold { font-weight: 700; }
+        .text-primary { color: var(--primary); }
+        .text-success { color: var(--success); }
+        .text-error { color: var(--error); }
+
+        /* ANIMATION KEYFRAMES */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        .anim-fade { animation: fadeIn 0.4s ease-out forwards; }
+        .anim-slide-up { animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .anim-pop { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .anim-pop:active { transform: scale(0.95); }
+
+        /* SPLASH SCREEN CSS */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #1a2c2a 0%, #000 100%);
+            z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease-out, visibility 0.6s;
+        }
+        #splash-screen.hide { opacity: 0; visibility: hidden; }
+
+        .splash-logo-container { position: relative; width: 120px; height: 120px; margin-bottom: 24px; }
+        
+        .splash-logo {
+            font-size: 80px; font-weight: 800; font-family: var(--font-sans);
+            background: linear-gradient(135deg, #2D8074, #00E5FF);
+            -webkit-background-clip: text; color: transparent;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            animation: logoEnter 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            z-index: 2;
+        }
+
+        .particle {
+            position: absolute; width: 6px; height: 6px; background: #00E5FF; border-radius: 50%;
+            top: 50%; left: 50%;
+            box-shadow: 0 0 10px #00E5FF;
+            animation: orbit 2.5s linear infinite;
+        }
+        .particle:nth-child(1) { animation-delay: 0s; width: 8px; height: 8px; opacity: 0.8; }
+        .particle:nth-child(2) { animation-delay: -0.8s; width: 5px; height: 5px; opacity: 0.6; }
+        .particle:nth-child(3) { animation-delay: -1.6s; width: 4px; height: 4px; opacity: 0.4; }
+
+        @keyframes logoEnter {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-45deg); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+        }
+        @keyframes orbit {
+            0% { transform: translate(-50%, -50%) rotate(0deg) translateX(45px) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) translateX(45px) rotate(-360deg); }
+        }
+
+        .splash-tagline {
+            color: #fff; font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase;
+            opacity: 0; animation: slideUp 0.8s ease 0.6s forwards;
+            background: linear-gradient(to right, #fff, #A0A0A0); -webkit-background-clip: text; color: transparent;
+        }
+
+        .splash-loader {
+            width: 200px; height: 4px; background: rgba(255,255,255,0.1);
+            border-radius: 2px; margin-top: 40px; overflow: hidden;
+            opacity: 0; animation: fadeIn 0.5s ease 1s forwards;
+        }
+        .splash-progress {
+            width: 0%; height: 100%; background: linear-gradient(90deg, #2D8074, #00E5FF);
+            animation: loadProgress 3s ease-in-out forwards;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        @keyframes loadProgress { 0% { width: 0%; } 100% { width: 100%; } }
+        
+        .tap-hint {
+            margin-top: 20px; color: #555; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+            opacity: 0; animation: fadeIn 1s ease 2.5s forwards;
+        }
+
+        /* COMPONENTS */
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: var(--primary-grad);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+        .btn-primary:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 30px rgba(45,128,116,0.4); }
+        .btn-secondary { background: var(--surface-light); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: #333; border-color: #555; }
+        .btn-danger { background: rgba(255, 84, 89, 0.1); color: var(--error); border: 1px solid var(--error); }
+        .btn-danger:hover { background: var(--error); color: white; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+        /* Inputs */
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(45,128,116,0.2); }
+        .input-label {
+            position: absolute; left: 16px; top: 12px;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            font-size: 16px;
+        }
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label {
+            transform: translateY(-24px) scale(0.85);
+            left: 8px;
+            color: var(--primary);
+            background: var(--bg);
+            padding: 0 4px;
+        }
+        /* File Input */
+        .file-upload-label {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 20px; border: 2px dashed var(--border); border-radius: var(--radius-sm);
+            cursor: pointer; transition: all 0.3s; min-height: 120px;
+        }
+        .file-upload-label:hover { border-color: var(--primary); background: rgba(45,128,116,0.05); }
+        
+        /* Interactive Star Rating */
+        .star-rating { direction: rtl; display: inline-flex; }
+        .star-rating input { display: none; }
+        .star-rating label { font-size: 30px; color: #444; cursor: pointer; transition: color 0.2s; padding: 0 2px; }
+        .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: var(--warning); }
+        
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: rgba(255,255,255,0.15); }
+
+        /* Product Grid */
+        .grid-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* Layout Structure */
+        #app { min-height: 100vh; display: flex; flex-direction: column; }
+        header {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(15, 17, 17, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 24px;
+        }
+        main { flex: 1; padding: 24px; max-width: 1400px; width: 100%; margin: 0 auto; }
+
+        /* Specific Views */
+        /* Landing */
+        .landing-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #1a2c2a 0%, var(--bg) 70%);
+            text-align: center;
+        }
+        
+        /* Quote Banner */
+        #quote-banner {
+            margin: 24px 0;
+            background: var(--primary-grad);
+            border-radius: var(--radius-md);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: none; /* JS toggles this */
+            box-shadow: var(--shadow-glow);
+        }
+        #quote-banner h2 { font-size: 1.5rem; margin-bottom: 12px; font-style: italic; }
+        #quote-banner p { opacity: 0.9; font-size: 0.9rem; }
+        .quote-bg-anim {
+            position: absolute; top: 0; left: 0; width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite linear;
+        }
+        @keyframes shimmer { from { transform: translateX(-100%); } to { transform: translateX(50%); } }
+
+        /* Toast */
+        #toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 100; display: flex; flex-direction: column; gap: 10px; }
+        .toast {
+            background: var(--surface); border-left: 4px solid var(--primary);
+            padding: 16px 24px; border-radius: 4px; box-shadow: var(--shadow-hover);
+            display: flex; align-items: center; gap: 12px;
+            animation: slideUp 0.3s ease; color: white;
+        }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--error); }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            z-index: 90; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+        .modal-content {
+            background: var(--bg); border: 1px solid var(--border);
+            width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto;
+            border-radius: var(--radius-lg); padding: 32px;
+            transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-overlay.open .modal-content { transform: scale(1); }
+
+        /* Product Card */
+        .product-img {
+            width: 100%; height: 220px; object-fit: cover;
+            border-radius: var(--radius-sm); margin-bottom: 16px;
+            background: #222;
+        }
+        .badge {
+            padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase;
+        }
+        .badge-sale { background: var(--error); color: white; }
+        .badge-status { background: var(--surface-light); border: 1px solid var(--border); }
+        .badge-status.pending { color: var(--warning); border-color: var(--warning); animation: pulse 1.5s infinite; }
+        .badge-status.paid { color: var(--success); border-color: var(--success); }
+
+        /* Checkout Wizard */
+        .wizard-steps { display: flex; justify-content: space-between; margin-bottom: 32px; position: relative; }
+        .wizard-steps::before {
+            content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #333; z-index: 0;
+        }
+        .step {
+            position: relative; z-index: 1; background: var(--bg); border: 2px solid #333;
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: bold; transition: all 0.3s;
+        }
+        .step.active { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 0 15px var(--primary); }
+
+        /* Print Styles */
+        @media print {
+            body * { visibility: hidden; }
+            #receipt-view, #receipt-view * { visibility: visible; }
+            #receipt-view { position: absolute; left: 0; top: 0; width: 100%; background: white; color: black; padding: 0; margin: 0; }
+            .btn, header { display: none !important; }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            header { padding: 12px; }
+            .grid-products { grid-template-columns: 1fr; }
+            .modal-content { width: 95%; padding: 20px; }
+            #quote-banner { padding: 24px; }
+            #quote-banner h2 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="splash-screen" onclick="dismissSplash()">
+    <div class="splash-logo-container">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="splash-logo">S</div>
+    </div>
+    <div class="splash-tagline">Sathurika's Store</div>
+    <div class="splash-loader">
+        <div class="splash-progress"></div>
+    </div>
+    <div class="tap-hint">Tap to Continue</div>
+</div>
+
+<div id="app"></div>
+<div id="toast-container"></div>
+
+<!-- Modal Container -->
+<div id="modal" class="modal-overlay">
+    <div class="modal-content" id="modal-body"></div>
+</div>
+
+<script>
+/**
+ * GOD-TIER E-COMMERCE ENGINE
+ * Author: Ruthless Architect
+ * Version: 1.0.0
+ */
+
+// --- SPLASH SCREEN LOGIC ---
+function dismissSplash() {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        splash.classList.add('hide');
+        setTimeout(() => splash.remove(), 600); // Remove from DOM after fade out
+    }
+}
+
+// --- 1. CONFIG & DATA ---
+
+const CONFIG = {
+    quotesRotationHours: 8,
+    quoteHistoryDays: 7,
+    adminPassword: "sathurika@042006",
+    currency: "₹"
+};
+
+const QUOTES_DB = [
+    { text: "Every great journey starts with a single step.", author: "Daily Inspiration" },
+    { text: "Simplicity is the ultimate sophistication.", author: "Leonardo da Vinci" },
+    { text: "Style is a way to say who you are without having to speak.", author: "Rachel Zoe" },
+    { text: "Fashion fades, only style remains the same.", author: "Coco Chanel" },
+    { text: "Elegance is not standing out, but being remembered.", author: "Giorgio Armani" },
+    { text: "Clothes mean nothing until someone lives in them.", author: "Marc Jacobs" },
+    { text: "Create your own style… let it be unique for yourself.", author: "Anna Wintour" },
+    { text: "In difficult times, fashion is always outrageous.", author: "Elsa Schiaparelli" },
+    { text: "The joy of dressing is an art.", author: "John Galliano" },
+    { text: "Fashion is the armor to survive the reality of everyday life.", author: "Bill Cunningham" },
+    { text: "Buy less, choose well, make it last.", author: "Vivienne Westwood" },
+    { text: "Luxury must be comfortable, otherwise it is not luxury.", author: "Coco Chanel" },
+    { text: "Design is not just what it looks like, it is how it works.", author: "Steve Jobs" },
+    { text: "Quality never goes out of style.", author: "Levi Strauss" },
+    { text: "Dress like you are already famous.", author: "Unknown" },
+    { text: "Life is too short to wear boring clothes.", author: "Unknown" },
+    { text: "Shoes transform your body language and attitude.", author: "Christian Louboutin" },
+    { text: "Make it simple, but significant.", author: "Don Draper" },
+    { text: "Optimism is the faith that leads to achievement.", author: "Helen Keller" },
+    { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" }
+];
+
+// --- 2. UTILITIES ---
+
+const Utils = {
+    id: (prefix) => `${prefix}-${Date.now()}-${Math.floor(Math.random()*1000)}`,
+    date: () => new Date().toISOString(),
+    formatCurrency: (amount) => `${CONFIG.currency}${Number(amount).toLocaleString('en-IN')}`,
+    formatDate: (ts) => new Date(ts).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' }),
+    
+    // Create base64 placeholder images
+    generatePlaceholder: (text, color = '#2D8074') => {
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+            <rect width="400" height="400" fill="${color}"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="24" fill="white">${text}</text>
+        </svg>`;
+        return `data:image/svg+xml;base64,${btoa(svg)}`;
+    },
+    
+    readFile: (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+};
+
+// --- 3. STORAGE & STATE ---
+
+const DB = {
+    get: (key, def) => {
+        const item = localStorage.getItem(key);
+        return item ? JSON.parse(item) : def;
+    },
+    set: (key, val) => {
+        localStorage.setItem(key, JSON.stringify(val));
+        window.dispatchEvent(new Event('storage')); // Trigger update across tabs
+    },
+    init: () => {
+        // No pre-built products. Admin must add them.
+        if (!localStorage.getItem('products')) {
+            DB.set('products', []);
+        }
+        if (!localStorage.getItem('users')) DB.set('users', []);
+        if (!localStorage.getItem('orders')) DB.set('orders', []);
+        if (!localStorage.getItem('cart')) DB.set('cart', []);
+        if (!localStorage.getItem('settings')) DB.set('settings', { storeName: "Sathurika's Store", upi: "sathurika@upi" });
+    }
+};
+
+const State = {
+    user: DB.get('currentUser', null),
+    role: DB.get('userRole', null),
+    products: [],
+    cart: DB.get('cart', []),
+    orders: [],
+    
+    login: (user, role) => {
+        State.user = user;
+        State.role = role;
+        DB.set('currentUser', user);
+        DB.set('userRole', role);
+        UI.toast(`Welcome back, ${user.name || 'Admin'}!`, 'success');
+        Router.navigate(role === 'admin' ? 'admin-dashboard' : 'home');
+    },
+    logout: () => {
+        State.user = null;
+        State.role = null;
+        DB.set('currentUser', null);
+        DB.set('userRole', null);
+        DB.set('cart', []); // Clear local cart reference
+        Router.navigate('landing');
+    }
+};
+
+// --- 4. UI ENGINE ---
+
+const UI = {
+    app: document.getElementById('app'),
+    
+    toast: (msg, type = 'info') => {
+        const container = document.getElementById('toast-container');
+        const el = document.createElement('div');
+        el.className = `toast ${type}`;
+        el.innerHTML = `
+            <span>${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'}</span>
+            <span>${msg}</span>
+        `;
+        container.appendChild(el);
+        setTimeout(() => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(10px)';
+            setTimeout(() => el.remove(), 300);
+        }, 3000);
+    },
+
+    modal: (html) => {
+        const overlay = document.getElementById('modal');
+        const body = document.getElementById('modal-body');
+        body.innerHTML = `<div style="text-align:right; margin-bottom:10px;"><button onclick="UI.closeModal()" class="text-error" style="font-size:24px;">&times;</button></div>` + html;
+        overlay.classList.add('open');
+    },
+    
+    closeModal: () => {
+        document.getElementById('modal').classList.remove('open');
+    }
+};
+
+// --- 5. LOGIC MODULES ---
+
+const QuoteSystem = {
+    getQuote: () => {
+        const now = Date.now();
+        const history = DB.get('quote_history', {}); // { lastShownTime, shownIds: [] }
+        
+        // Check 8 hour rotation
+        if (history.lastShownTime && (now - history.lastShownTime) < (CONFIG.quotesRotationHours * 60 * 60 * 1000)) {
+            const lastId = history.lastQuoteId;
+            return QUOTES_DB[lastId] || QUOTES_DB[0];
+        }
+
+        // Filter valid quotes (not shown in last 7 days)
+        let availableIndex = Math.floor(Math.random() * QUOTES_DB.length);
+        
+        // Save
+        DB.set('quote_history', {
+            lastShownTime: now,
+            lastQuoteId: availableIndex
+        });
+        
+        return QUOTES_DB[availableIndex];
+    },
+    
+    render: () => {
+        const quote = QuoteSystem.getQuote();
+        return `
+            <div id="quote-banner" class="anim-slide-up" style="display:block;">
+                <div class="quote-bg-anim"></div>
+                <div style="position:relative; z-index:2;">
+                    <h2>"${quote.text}"</h2>
+                    <p>— ${quote.author}</p>
+                </div>
+            </div>
+        `;
+    }
+};
+
+const Cart = {
+    add: (product) => {
+        const existing = State.cart.find(item => item.id === product.id);
+        if (existing) {
+            existing.qty++;
+        } else {
+            State.cart.push({ ...product, qty: 1 });
+        }
+        DB.set('cart', State.cart);
+        UI.toast("Added to cart", "success");
+        Render.header(); // Update count
+    },
+    remove: (id) => {
+        State.cart = State.cart.filter(item => item.id !== id);
+        DB.set('cart', State.cart);
+        Render.cartModal();
+        Render.header();
+    },
+    updateQty: (id, delta) => {
+        const item = State.cart.find(i => i.id === id);
+        if (item) {
+            item.qty += delta;
+            if (item.qty <= 0) Cart.remove(id);
+            else {
+                DB.set('cart', State.cart);
+                Render.cartModal();
+            }
+        }
+    },
+    total: () => State.cart.reduce((acc, item) => acc + (item.offerPrice * item.qty), 0),
+    clear: () => {
+        State.cart = [];
+        DB.set('cart', []);
+        Render.header();
+    }
+};
+
+// --- 6. RENDERERS & VIEWS ---
+
+const Router = {
+    routes: {
+        'landing': () => Views.landing(),
+        'login': () => Views.auth('login'),
+        'signup': () => Views.auth('signup'),
+        'admin-login': () => Views.auth('admin'),
+        'home': () => Views.home(),
+        'admin-dashboard': () => Views.adminDashboard(),
+        'admin-products': () => Views.adminProducts(),
+        'admin-orders': () => Views.adminOrders(),
+        'checkout': () => Views.checkout(),
+        'my-orders': () => Views.customerOrders()
+    },
+    navigate: (route) => {
+        window.scrollTo(0,0);
+        if (Router.routes[route]) Router.routes[route]();
+    }
+};
+
+const Render = {
+    header: () => {
+        const isAuth = !!State.user;
+        const isAdmin = State.role === 'admin';
+        const cartCount = State.cart.reduce((acc, i) => acc + i.qty, 0);
+        
+        return `
+            <header class="flex justify-between items-center anim-fade">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-xl font-bold" style="color:var(--primary); cursor:pointer;" onclick="Router.navigate('${isAdmin ? 'admin-dashboard' : 'home'}')">
+                        Sathurika's Store
+                    </h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    ${!isAdmin ? `
+                        <button class="btn btn-secondary" onclick="Render.cartModal()">
+                            🛒 <span class="badge badge-sale" style="margin-left:5px">${cartCount}</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="Router.navigate('my-orders')">📦 Orders</button>
+                    ` : `
+                        <button class="btn btn-secondary" onclick="Router.navigate('admin-products')">Products</button>
+                        <button class="btn btn-secondary" onclick="Router.navigate('admin-orders')">Orders</button>
+                    `}
+                    <button class="btn btn-danger" onclick="State.logout()">Logout</button>
+                </div>
+            </header>
+        `;
+    },
+
+    productCard: (p, isAdmin) => `
+        <div class="card anim-pop">
+            <div style="position:relative;">
+                <img src="${p.image}" class="product-img" alt="${p.name}">
+                ${p.video ? `<div style="position:absolute; bottom:20px; right:8px; background:rgba(0,0,0,0.7); color:white; padding:2px 6px; border-radius:4px; font-size:10px;">🎥 VIDEO</div>` : ''}
+            </div>
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-lg">${p.name}</h3>
+                    <p class="text-sm text-muted">${p.category}</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-lg font-bold text-primary">${Utils.formatCurrency(p.offerPrice)}</div>
+                    ${p.price > p.offerPrice ? `<div class="text-sm text-muted" style="text-decoration:line-through">${Utils.formatCurrency(p.price)}</div>` : ''}
+                </div>
+            </div>
+            ${p.price > p.offerPrice ? `<div class="badge badge-sale" style="position:absolute; top:32px; right:32px;">-${Math.round((1 - p.offerPrice/p.price)*100)}%</div>` : ''}
+            
+            ${p.video ? `<div class="mb-2"><a href="${p.video}" target="_blank" class="text-sm text-accent">▶ Watch Video</a></div>` : ''}
+
+            <div class="flex justify-between items-center" style="margin-top:16px; gap:8px;">
+                <div class="text-warning text-sm cursor-pointer" onclick="Views.viewProduct('${p.id}')">★ ${p.rating} (${p.reviews} Reviews)</div>
+                ${isAdmin ? `
+                    <button class="btn btn-danger text-sm" onclick="Views.deleteProduct('${p.id}')">Delete</button>
+                ` : `
+                    <button class="btn btn-secondary text-sm" onclick="Views.viewProduct('${p.id}')">View & Review</button>
+                    <button class="btn btn-primary text-sm" onclick='Cart.add(${JSON.stringify(p)})'>Add</button>
+                `}
+            </div>
+        </div>
+    `,
+
+    cartModal: () => {
+        const total = Cart.total();
+        const html = `
+            <h2 class="text-xl mb-4">Shopping Cart</h2>
+            <div style="max-height: 400px; overflow-y:auto;">
+                ${State.cart.length === 0 ? '<p class="text-center text-muted">Cart is empty</p>' : State.cart.map(item => `
+                    <div class="flex justify-between items-center" style="margin-bottom:16px; border-bottom:1px solid #333; padding-bottom:8px;">
+                        <div class="flex gap-4">
+                            <img src="${item.image}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                            <div>
+                                <h4>${item.name}</h4>
+                                <div class="text-primary">${Utils.formatCurrency(item.offerPrice)}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="btn btn-secondary" style="padding:4px 8px;" onclick="Cart.updateQty('${item.id}', -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="btn btn-secondary" style="padding:4px 8px;" onclick="Cart.updateQty('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            ${State.cart.length > 0 ? `
+                <div class="flex justify-between items-center" style="margin-top:20px; font-size:1.2rem; font-weight:bold;">
+                    <span>Total:</span>
+                    <span>${Utils.formatCurrency(total)}</span>
+                </div>
+                <button class="btn btn-primary w-full" style="margin-top:16px;" onclick="UI.closeModal(); Router.navigate('checkout')">Proceed to Checkout</button>
+            ` : ''}
+        `;
+        UI.modal(html);
+    }
+};
+
+const Views = {
+    landing: () => {
+        UI.app.innerHTML = `
+            <div class="landing-hero anim-fade">
+                <h1 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; color: transparent;">
+                    Sathurika's Store
+                </h1>
+                <p class="text-muted" style="font-size: 1.2rem; margin-bottom: 3rem;">Premium Ethnic Wear & Futuristic Fashion</p>
+                
+                <div class="flex gap-4 flex-col md:flex-row">
+                    <button class="btn btn-primary" style="min-width: 200px;" onclick="Router.navigate('login')">I am a Customer</button>
+                    <button class="btn btn-secondary" style="min-width: 200px;" onclick="Router.navigate('admin-login')">I am Admin</button>
+                </div>
+            </div>
+        `;
+    },
+
+    auth: (mode) => {
+        // mode: login, signup, admin
+        const isSignup = mode === 'signup';
+        const isAdmin = mode === 'admin';
+        
+        UI.app.innerHTML = `
+            <div class="flex justify-center items-center" style="min-height:100vh;">
+                <div class="card anim-slide-up" style="width:100%; max-width:400px;">
+                    <h2 class="text-center mb-6">${isAdmin ? 'Admin Login' : isSignup ? 'Create Account' : 'Customer Login'}</h2>
+                    
+                    <form onsubmit="event.preventDefault(); Views.handleAuth('${mode}', this)">
+                        ${isSignup ? `
+                            <div class="input-group">
+                                <input class="input-field" name="name" placeholder=" " required>
+                                <label class="input-label">Full Name</label>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="input-group">
+                            <input class="input-field" name="email" type="${isAdmin ? 'text' : 'email'}" placeholder=" " required>
+                            <label class="input-label">${isAdmin ? 'Admin ID / Email' : 'Email Address'}</label>
+                        </div>
+                        
+                        <div class="input-group">
+                            <input class="input-field" name="password" type="password" placeholder=" " required>
+                            <label class="input-label">Password</label>
+                        </div>
+
+                        ${isSignup ? `
+                            <div class="input-group">
+                                <input class="input-field" name="phone" placeholder=" " required pattern="[0-9]{10}">
+                                <label class="input-label">Phone (10 digits)</label>
+                            </div>
+                            <div class="input-group">
+                                <input class="input-field" name="address" placeholder=" " required>
+                                <label class="input-label">Delivery Address</label>
+                            </div>
+                        ` : ''}
+                        
+                        <button type="submit" class="btn btn-primary w-full">${isAdmin || !isSignup ? 'Login' : 'Sign Up'}</button>
+                    </form>
+                    
+                    ${!isAdmin ? `
+                        <div class="text-center mt-4">
+                            <a class="text-primary text-sm" onclick="Router.navigate('${isSignup ? 'login' : 'signup'}')">
+                                ${isSignup ? 'Already have an account? Login' : 'New here? Create Account'}
+                            </a>
+                        </div>
+                    ` : ''}
+                    ${!isSignup && !isAdmin ? `<div class="text-center mt-2"><a class="text-muted text-xs" onclick="Router.navigate('admin-login')">Admin Access</a></div>` : ''}
+                </div>
+            </div>
+        `;
+    },
+
+    handleAuth: (mode, form) => {
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        
+        if (mode === 'admin') {
+            if (data.password === CONFIG.adminPassword) {
+                State.login({ name: 'Sathurika', email: 'admin@store.com' }, 'admin');
+            } else {
+                UI.toast('Invalid Admin Password', 'error');
+                form.classList.add('shake'); // Add shake animation
+                setTimeout(()=>form.classList.remove('shake'), 500);
+            }
+        } else if (mode === 'signup') {
+            const users = DB.get('users', []);
+            if (users.find(u => u.email === data.email)) {
+                UI.toast('Email already exists', 'error');
+                return;
+            }
+            const newUser = { ...data, uid: Utils.id('USR'), role: 'customer' };
+            users.push(newUser);
+            DB.set('users', users);
+            UI.toast('Account created! Please login.', 'success');
+            Router.navigate('login');
+        } else {
+            // Login
+            const users = DB.get('users', []);
+            const user = users.find(u => u.email === data.email && u.password === data.password);
+            if (user) {
+                State.login(user, 'customer');
+            } else {
+                UI.toast('Invalid credentials', 'error');
+            }
+        }
+    },
+
+    home: () => {
+        if (!State.user) return Router.navigate('login');
+        const products = DB.get('products', []);
+        
+        UI.app.innerHTML = `
+            ${Render.header()}
+            <main>
+                ${QuoteSystem.render()}
+                
+                <div class="flex justify-between items-center mb-6 mt-6">
+                    <h2 class="text-2xl">Latest Collection</h2>
+                    <input type="text" placeholder="Search products..." class="input-field" style="width:200px;" onkeyup="Views.filterProducts(this.value)">
+                </div>
+                
+                <div id="product-list" class="grid-products">
+                    ${products.length === 0 ? '<div class="text-center w-full text-muted">No products yet. Admin is stocking up!</div>' : products.map(p => Render.productCard(p, false)).join('')}
+                </div>
+            </main>
+        `;
+    },
+
+    viewProduct: (id) => {
+        const product = DB.get('products', []).find(p => p.id === id);
+        if (!product) return;
+        
+        const reviewsList = product.reviewsList || [];
+        
+        UI.modal(`
+            <div style="text-align:left;">
+                <div class="flex gap-4 flex-col md:flex-row mb-6">
+                    <img src="${product.image}" style="width:100%; max-width:250px; border-radius:8px; object-fit:cover;">
+                    <div style="flex:1;">
+                        <h2 class="text-2xl">${product.name}</h2>
+                        <div class="text-primary text-xl font-bold my-2">${Utils.formatCurrency(product.offerPrice)}</div>
+                        <p class="text-muted mb-4">${product.description}</p>
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-warning text-xl">★ ${product.rating}</span>
+                            <span class="text-muted">(${product.reviews} Reviews)</span>
+                        </div>
+                        ${product.video ? `<a href="${product.video}" target="_blank" class="btn btn-secondary w-full mb-2">▶ Watch Video</a>` : ''}
+                        <button class="btn btn-primary w-full" onclick='Cart.add(${JSON.stringify(product)}); UI.closeModal();'>Add to Cart</button>
+                    </div>
+                </div>
+                
+                <hr style="border-color:var(--border); margin-bottom:20px;">
+                
+                <h3 class="mb-4">Customer Reviews</h3>
+                <div style="max-height:200px; overflow-y:auto; margin-bottom:20px; padding-right:10px;">
+                    ${reviewsList.length === 0 ? '<p class="text-muted text-sm">No reviews yet. Be the first!</p>' : reviewsList.map(r => `
+                        <div style="background:var(--surface-light); padding:10px; border-radius:8px; margin-bottom:10px;">
+                            <div class="flex justify-between">
+                                <strong>${r.user}</strong>
+                                <span class="text-warning">★ ${r.rating}</span>
+                            </div>
+                            <p class="text-sm mt-1">${r.text}</p>
+                            <div class="text-xs text-muted mt-1">${new Date(r.date).toLocaleDateString()}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                ${State.role === 'customer' ? `
+                    <div class="card" style="background:rgba(255,255,255,0.02);">
+                        <h4>Write a Review</h4>
+                        <form onsubmit="event.preventDefault(); Views.submitReview('${product.id}', this)">
+                            <div class="star-rating mb-2">
+                                <input type="radio" id="star5" name="rating" value="5" required/><label for="star5">★</label>
+                                <input type="radio" id="star4" name="rating" value="4"/><label for="star4">★</label>
+                                <input type="radio" id="star3" name="rating" value="3"/><label for="star3">★</label>
+                                <input type="radio" id="star2" name="rating" value="2"/><label for="star2">★</label>
+                                <input type="radio" id="star1" name="rating" value="1"/><label for="star1">★</label>
+                            </div>
+                            <div class="input-group">
+                                <textarea class="input-field" name="review" rows="2" placeholder=" " required></textarea>
+                                <label class="input-label">Share your thoughts...</label>
+                            </div>
+                            <button type="submit" class="btn btn-secondary w-full">Submit Review</button>
+                        </form>
+                    </div>
+                ` : ''}
+            </div>
+        `);
+    },
+
+    submitReview: (id, form) => {
+        const formData = new FormData(form);
+        const rating = Number(formData.get('rating'));
+        const text = formData.get('review');
+        
+        if (!rating) return UI.toast('Please select a star rating', 'error');
+
+        const products = DB.get('products', []);
+        const productIndex = products.findIndex(p => p.id === id);
+        
+        if (productIndex > -1) {
+            const product = products[productIndex];
+            if (!product.reviewsList) product.reviewsList = [];
+            
+            product.reviewsList.unshift({
+                user: State.user.name,
+                rating: rating,
+                text: text,
+                date: Date.now()
+            });
+            
+            // Recalculate average
+            const totalStars = product.reviewsList.reduce((acc, r) => acc + r.rating, 0);
+            product.rating = (totalStars / product.reviewsList.length).toFixed(1);
+            product.reviews = product.reviewsList.length;
+            
+            products[productIndex] = product;
+            DB.set('products', products);
+            
+            UI.toast('Review Submitted!', 'success');
+            Views.viewProduct(id); // Reload modal
+            if (State.role === 'admin') Views.adminProducts(); // Refresh background views
+            else Views.home();
+        }
+    },
+
+    filterProducts: (term) => {
+        const products = DB.get('products', []);
+        const filtered = products.filter(p => p.name.toLowerCase().includes(term.toLowerCase()));
+        document.getElementById('product-list').innerHTML = filtered.map(p => Render.productCard(p, false)).join('');
+    },
+
+    adminDashboard: () => {
+        if (State.role !== 'admin') return Router.navigate('login');
+        const orders = DB.get('orders', []);
+        const totalRevenue = orders.filter(o => o.paymentStatus === 'paid').reduce((acc, o) => acc + o.totalAmount, 0);
+        const pendingCount = orders.filter(o => o.status === 'awaiting_review').length;
+
+        UI.app.innerHTML = `
+            ${Render.header()}
+            <main>
+                <h2 class="mb-6">Admin Dashboard</h2>
+                <div class="grid-products" style="margin-bottom:32px;">
+                    <div class="card text-center">
+                        <h3 class="text-muted">Total Revenue</h3>
+                        <div class="text-2xl font-bold text-success">${Utils.formatCurrency(totalRevenue)}</div>
+                    </div>
+                    <div class="card text-center">
+                        <h3 class="text-muted">Total Orders</h3>
+                        <div class="text-2xl font-bold">${orders.length}</div>
+                    </div>
+                    <div class="card text-center">
+                        <h3 class="text-muted">Pending Reviews</h3>
+                        <div class="text-2xl font-bold text-warning">${pendingCount}</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Recent Activity</h3>
+                    <p class="text-muted">System running optimally.</p>
+                </div>
+            </main>
+        `;
+    },
+
+    adminProducts: () => {
+        const products = DB.get('products', []);
+        UI.app.innerHTML = `
+            ${Render.header()}
+            <main>
+                <div class="flex justify-between items-center mb-6">
+                    <h2>Manage Products</h2>
+                    <button class="btn btn-primary" onclick="Views.addProductModal()">+ Add Product</button>
+                </div>
+                <div class="grid-products">
+                    ${products.length === 0 ? '<div class="text-center text-muted">No products. Add some!</div>' : products.map(p => Render.productCard(p, true)).join('')}
+                </div>
+            </main>
+        `;
+    },
+
+    addProductModal: () => {
+        UI.modal(`
+            <h2 class="mb-4">Add New Product</h2>
+            <form onsubmit="event.preventDefault(); Views.saveProduct(this)">
+                <div class="input-group">
+                    <input class="input-field" name="name" required placeholder=" ">
+                    <label class="input-label">Product Name</label>
+                </div>
+                
+                <div class="input-group">
+                    <label class="file-upload-label" onclick="document.getElementById('prod-img').click()">
+                        <div id="upload-placeholder">
+                            <span style="font-size: 2rem;">📸</span>
+                            <div style="margin-top:8px">Click to Upload Image</div>
+                            <span class="text-xs text-muted">Supports JPG, PNG</span>
+                        </div>
+                        <img id="img-preview" src="" style="display:none; width:100%; height:250px; object-fit:cover; border-radius:8px;">
+                    </label>
+                    <input type="file" id="prod-img" class="hidden" accept="image/*" required onchange="Views.previewImage(this)">
+                </div>
+
+                <div class="input-group">
+                    <input class="input-field" name="video" placeholder=" ">
+                    <label class="input-label">Video URL (YouTube/Vimeo)</label>
+                </div>
+                
+                <div class="flex gap-4">
+                    <div class="input-group w-full">
+                        <input class="input-field" name="price" type="number" required placeholder=" ">
+                        <label class="input-label">Price</label>
+                    </div>
+                    <div class="input-group w-full">
+                        <input class="input-field" name="offerPrice" type="number" required placeholder=" ">
+                        <label class="input-label">Offer Price</label>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <input class="input-field" name="category" required placeholder=" ">
+                    <label class="input-label">Category</label>
+                </div>
+                
+                <div class="input-group">
+                    <textarea class="input-field" name="description" rows="3" placeholder=" " required></textarea>
+                    <label class="input-label">Description</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full">Save Product</button>
+            </form>
+        `);
+    },
+
+    previewImage: (input) => {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('upload-placeholder').style.display = 'none';
+                const img = document.getElementById('img-preview');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    },
+
+    saveProduct: async (form) => {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const fileInput = document.getElementById('prod-img');
+        
+        let imageBase64 = null;
+        if (fileInput.files && fileInput.files[0]) {
+            try {
+                imageBase64 = await Utils.readFile(fileInput.files[0]);
+            } catch (e) {
+                UI.toast('Error reading image', 'error');
+                return;
+            }
+        }
+
+        const products = DB.get('products', []);
+        const newProduct = {
+            id: Utils.id('PROD'),
+            ...data,
+            price: Number(data.price),
+            offerPrice: Number(data.offerPrice),
+            rating: 5.0, reviews: 0, reviewsList: [],
+            image: imageBase64 || Utils.generatePlaceholder(data.name),
+            video: data.video || null
+        };
+        products.unshift(newProduct);
+        DB.set('products', products);
+        UI.closeModal();
+        UI.toast('Product Published!', 'success');
+        Views.adminProducts();
+    },
+
+    deleteProduct: (id) => {
+        const prod = DB.get('products', []).find(p => p.id === id);
+        UI.modal(`
+            <div class="text-center">
+                <div style="font-size: 3rem; margin-bottom: 16px;">🗑️</div>
+                <h2 class="text-error mb-2">Delete Product?</h2>
+                <p class="mb-6">Are you sure you want to delete <strong>${prod ? prod.name : 'this item'}</strong>?<br>This action cannot be undone.</p>
+                <div class="flex gap-4">
+                    <button class="btn btn-secondary w-full" onclick="UI.closeModal()">Cancel</button>
+                    <button class="btn btn-danger w-full" onclick="Views.executeDelete('${id}')">Delete Permanently</button>
+                </div>
+            </div>
+        `);
+    },
+
+    executeDelete: (id) => {
+        const products = DB.get('products', []).filter(p => p.id !== id);
+        DB.set('products', products);
+        UI.closeModal();
+        Views.adminProducts();
+        UI.toast('Product deleted successfully', 'success');
+    },
+
+    checkout: () => {
+        if (State.cart.length === 0) return Router.navigate('home');
+        
+        // Simple Checkout View
+        UI.app.innerHTML = `
+            ${Render.header()}
+            <main>
+                <div class="card" style="max-width:600px; margin:0 auto;">
+                    <h2 class="mb-4">Checkout</h2>
+                    
+                    <div class="mb-6">
+                        <h4 class="text-muted mb-2">1. Shipping Address</h4>
+                        <div class="card" style="background:var(--surface-light)">
+                            <p><strong>${State.user.name}</strong></p>
+                            <p>${State.user.address}</p>
+                            <p>${State.user.phone}</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="text-muted mb-2">2. Payment Method</h4>
+                        <div class="flex gap-4">
+                            <label class="card w-full flex items-center gap-2" style="cursor:pointer">
+                                <input type="radio" name="payment" value="online" checked> Online (UPI/GPay)
+                            </label>
+                            <label class="card w-full flex items-center gap-2" style="cursor:pointer">
+                                <input type="radio" name="payment" value="cash"> Cash on Delivery
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="text-muted mb-2">3. Order Summary</h4>
+                        ${State.cart.map(item => `
+                            <div class="flex justify-between text-sm mb-2">
+                                <span>${item.name} x${item.qty}</span>
+                                <span>${Utils.formatCurrency(item.offerPrice * item.qty)}</span>
+                            </div>
+                        `).join('')}
+                        <hr style="border-color:var(--border); margin:10px 0;">
+                        <div class="flex justify-between font-bold text-lg">
+                            <span>Total</span>
+                            <span class="text-primary">${Utils.formatCurrency(Cart.total())}</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary w-full" onclick="Views.placeOrder()">Confirm Order</button>
+                </div>
+            </main>
+        `;
+    },
+
+    placeOrder: () => {
+        const paymentMode = document.querySelector('input[name="payment"]:checked').value;
+        const order = {
+            id: Utils.id('ORD'),
+            userId: State.user.uid,
+            items: State.cart,
+            totalAmount: Cart.total(),
+            paymentMode: paymentMode,
+            paymentStatus: paymentMode === 'cash' ? 'pending' : 'pending',
+            status: paymentMode === 'cash' ? 'paid' : 'awaiting_proof',
+            createdAt: Date.now(),
+            user: State.user // Snapshot user details
+        };
+
+        const orders = DB.get('orders', []);
+        orders.push(order);
+        DB.set('orders', orders);
+        Cart.clear();
+
+        if (paymentMode === 'online') {
+            UI.modal(`
+                <div class="text-center">
+                    <h2 class="text-primary">Order Placed!</h2>
+                    <p class="mb-4">Order ID: ${order.id}</p>
+                    <div class="card mb-4">
+                        <p>Pay <strong>${Utils.formatCurrency(order.totalAmount)}</strong> to:</p>
+                        <h3 class="text-accent">${DB.get('settings').upi}</h3>
+                        <p class="text-xs text-muted">Scan QR or use UPI ID</p>
+                    </div>
+                    <p class="text-sm mb-4">Please upload a screenshot of your payment in "My Orders" to confirm.</p>
+                    <button class="btn btn-primary" onclick="UI.closeModal(); Router.navigate('my-orders')">Go to My Orders</button>
+                </div>
+            `);
+        } else {
+            UI.toast('Order Placed Successfully!', 'success');
+            Router.navigate('my-orders');
+        }
+    },
+
+    customerOrders: () => {
+        const orders = DB.get('orders', []).filter(o => o.userId === State.user.uid).reverse();
+        
+        UI.app.innerHTML = `
+            ${Render.header()}
+            <main>
+                <h2 class="mb-6">My Orders</h2>
+                ${orders.length === 0 ? '<p>No orders yet.</p>' : ''}
+                <div class="flex flex-col gap-4">
+                    ${orders.map(o => `
+                        <div class="card">
+                            <div class="flex justify-between flex-wrap gap-2">
+                                <div>
+                                    <h3 class="text-lg">${o.id}</h3>
+                                    <p class="text-sm text-muted">${Utils.formatDate(o.createdAt)}</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-lg font-bold">${Utils.formatCurrency(o.totalAmount)}</div>
+                                    <div class="badge badge-status ${o.status === 'paid' ? 'paid' : 'pending'}">${o.status.replace('_', ' ').toUpperCase()}</div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                ${o.status === 'awaiting_proof' ? `
+                                    <button class="btn btn-primary text-sm" onclick="Views.uploadProof('${o.id}')">Upload Payment Proof</button>
+                                ` : ''}
+                                ${o.status === 'paid' ? `
+                                    <button class="btn btn-secondary text-sm" onclick="Views.printReceipt('${o.id}')">Download Receipt</button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </main>
+        `;
+    },
+
+    uploadProof: (orderId) => {
+        // Mock upload
+        UI.modal(`
+            <h2>Upload Payment Proof</h2>
+            <p class="text-muted mb-4">For Order: ${orderId}</p>
+            <div class="card text-center" style="border-style:dashed; cursor:pointer;" onclick="this.nextElementSibling.click()">
+                Click to Select Image
+            </div>
+            <input type="file" class="hidden" onchange="Views.handleProofUpload('${orderId}', this)">
+        `);
+    },
+
+    handleProofUpload: (orderId, input) => {
+        if (input.files && input.files[0]) {
+            // In a real app, convert to Base64. Here we just mock success.
+            const orders = DB.get('orders', []);
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = 'awaiting_review';
+                order.paymentProof = "mock_base64_string";
+                DB.set('orders', orders);
+                UI.closeModal();
+                UI.toast('Proof uploaded! Admin will review.', 'success');
+                Views.customerOrders();
+            }
+        }
+    },
+
+    adminOrders: () => {
+        const orders = DB.get('orders', []).reverse();
+        UI.app.innerHTML = `
+            ${Render.header()}
+            <main>
+                <h2 class="mb-6">Manage Orders</h2>
+                <div class="flex flex-col gap-4">
+                    ${orders.map(o => `
+                        <div class="card">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3>${o.id}</h3>
+                                    <p class="text-primary">${o.user.name}</p>
+                                    <p class="text-sm">Items: ${o.items.map(i => i.name).join(', ')}</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold">${Utils.formatCurrency(o.totalAmount)}</div>
+                                    <div class="badge badge-status ${o.status}">${o.status}</div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex gap-2">
+                                ${o.status === 'awaiting_review' ? `
+                                    <button class="btn btn-success" style="background:var(--success); color:white" onclick="Views.approveOrder('${o.id}')">Approve Payment</button>
+                                    <button class="btn btn-danger" onclick="Views.rejectOrder('${o.id}')">Reject</button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </main>
+        `;
+    },
+
+    approveOrder: (id) => {
+        const orders = DB.get('orders', []);
+        const order = orders.find(o => o.id === id);
+        if (order) {
+            order.status = 'paid';
+            order.paymentStatus = 'paid';
+            DB.set('orders', orders);
+            UI.toast('Order Approved', 'success');
+            Views.adminOrders();
+        }
+    },
+
+    printReceipt: (orderId) => {
+        const order = DB.get('orders', []).find(o => o.id === orderId);
+        if (!order) return;
+
+        // Create a printable window/iframe content
+        const receiptHTML = `
+            <div id="receipt-view" style="padding:40px; font-family:sans-serif; color:#000; max-width:800px; margin:auto;">
+                <div style="display:flex; justify-content:space-between; border-bottom:2px solid #000; padding-bottom:20px; margin-bottom:20px;">
+                    <div>
+                        <h1 style="margin:0; color:#2D8074;">INVOICE</h1>
+                        <p>#${order.id}</p>
+                        <p>Date: ${Utils.formatDate(order.createdAt)}</p>
+                    </div>
+                    <div style="text-align:right;">
+                        <h3>Sathurika's Store</h3>
+                        <p>Bangalore, India</p>
+                        <p>support@sathurika.store</p>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom:30px;">
+                    <strong>Bill To:</strong><br>
+                    ${order.user.name}<br>
+                    ${order.user.address}<br>
+                    ${order.user.phone}
+                </div>
+
+                <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+                    <thead>
+                        <tr style="background:#f0f0f0; text-align:left;">
+                            <th style="padding:10px;">Item</th>
+                            <th style="padding:10px;">Qty</th>
+                            <th style="padding:10px;">Price</th>
+                            <th style="padding:10px;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${order.items.map(i => `
+                            <tr>
+                                <td style="padding:10px; border-bottom:1px solid #ddd;">${i.name}</td>
+                                <td style="padding:10px; border-bottom:1px solid #ddd;">${i.qty}</td>
+                                <td style="padding:10px; border-bottom:1px solid #ddd;">${Utils.formatCurrency(i.offerPrice)}</td>
+                                <td style="padding:10px; border-bottom:1px solid #ddd;">${Utils.formatCurrency(i.offerPrice * i.qty)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+
+                <div style="text-align:right; font-size:1.2rem; font-weight:bold;">
+                    Total: ${Utils.formatCurrency(order.totalAmount)}
+                </div>
+                
+                <div style="margin-top:50px; text-align:center; font-size:0.8rem; color:#666;">
+                    Thank you for your business!
+                </div>
+            </div>
+            <script>window.print(); setTimeout(() => window.close(), 1000);<\/script>
+        `;
+        
+        const win = window.open('', '_blank');
+        win.document.write(receiptHTML);
+        win.document.close();
+    }
+};
+
+// --- INIT ---
+
+(function init() {
+    DB.init();
+    
+    // Auto-dismiss splash screen after animations
+    setTimeout(dismissSplash, 3500);
+
+    // Check if logged in
+    const user = DB.get('currentUser');
+    const role = DB.get('userRole');
+    if (user && role) {
+        State.user = user;
+        State.role = role;
+        Router.navigate(role === 'admin' ? 'admin-dashboard' : 'home');
+    } else {
+        Router.navigate('landing');
+    }
+
+    // Sync tabs
+    window.addEventListener('storage', () => {
+        State.products = DB.get('products', []);
+        State.orders = DB.get('orders', []);
+        // Re-render current view if needed (simplified)
+    });
+})();
+
+</script>
+</body>
+</html>
